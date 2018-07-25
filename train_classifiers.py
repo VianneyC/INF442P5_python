@@ -101,6 +101,23 @@ fichier.write(str(classifiers))
 fichier.close()
 print("---- done ----")
 
+#saves train_images_integral and train_images_features to .txt
+print("**** saving train_images_integral .txt ****")
+fichier = open("train_images_integral.txt","w")
+fichier.write(str(train_images_integral))
+fichier.close()
+print("---- done ----")
+print("**** saving train_images_features .txt ****")
+fichier = open("train_images_features.txt","w")
+fichier.write(str(train_images_features))
+fichier.close()
+print("---- done ----")
+
+
+
+
+
+
 """
 Other functions that can be used if needed
 """

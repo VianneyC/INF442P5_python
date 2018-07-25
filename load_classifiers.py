@@ -42,7 +42,6 @@ def arrayFromStringClassifieurs(classifiers_list) :
 
 #creates classifiers (array containing weights) 
 print("**** creating classifiers array from classifiers.txt ****")
-len_vec_features = 107988
 fichier = open("classifiers.txt","r")
 classifiers = fichier.read()
 fichier.close()

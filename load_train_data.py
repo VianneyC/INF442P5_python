@@ -25,6 +25,14 @@ def load_data(data_directory):
             labels.append((1 if str(os.path.basename(data_directory)) == "pos" else -1))
     return images, labels
 
+#
+def arrayFromStringTrainImageIntegral(image_integral_list) :
+    return 1
+
+#
+def arrayFromStringTrainImageFeatures(image_features_list) :
+    return 1
+
 #creates the features_patterns_list from features_patterns.txt
 def arrayFromStringFeaturesList(features_list) :
     array = []
@@ -85,18 +93,30 @@ print("**** loading train_images, train_labels ****")
 train_images, train_labels = load_data(os.path.join("/home/vianney/Documents","INF442P5_python/data/train/"))
 print("---- done ----")
 
-#creates empty arrays for train_images_integral and train_images_features
+
+#reads arrays for train_images_integral and train_images_features from .txt
+#
 #train_images_features = [ ...
 #                          ...
 #                          [[i1, i2, ...], [feature_i1_n, feature_i2_n, ...]],
 #                          ...
 #                          ... ]
 #with line n containing features of image n
-print("**** creating empty arrays for train_images_integral  and train_images_features ****")
-len_train_dataset = len(train_images)
-train_images_integral = [[] for k in range(len_train_dataset)]
-train_images_features = [[[],[]] for k in range(len_train_dataset)]
+#
+len_data_set = len(train_images)
+print("**** creating train_images_integral from train_images_integral.txt ****")
+fichier = open("train_images_integral.txt","r")
+train_images_integral = fichier.read()
+fichier.close()
+train_images_integral = arrayFromStringTrainImageIntegral(train_images_integral)
 print("---- done ----")
+print("**** creating train_images_features from train_images_features.txt ****")
+fichier = open("train_images_features.txt","r")
+train_images_features = fichier.read()
+fichier.close()
+train_images_features = arrayFromStringTrainImageFeatures(train_images_features)
+print("---- done ----")
+
 
 #creates features_patterns_list from features_patterns.txt
 print("**** creating features_patterns_list from features_patterns.txt ****")
