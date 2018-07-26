@@ -106,8 +106,8 @@ print("---- done ----")
 print("**** saving train_images_integral .txt ****")
 fichier = open("train_images_integral.txt","w")
 fichier.write("[")
-for i in range(len(integral_image)) :
-    arr = integral_image[i]
+for i in range(len(train_images_integral)) :
+    arr = train_images_integral[i]
     if arr == [] :
         fichier.write("[]")
     else :
@@ -118,7 +118,7 @@ for i in range(len(integral_image)) :
             if j < len(arr) - 1 :
                 fichier.write(", ")
         fichier.write("]")
-    if i < len(integral_image) - 1 :
+    if i < len(train_images_integral) - 1 :
         fichier.write(", ")
 fichier.write("]")
 fichier.close()
