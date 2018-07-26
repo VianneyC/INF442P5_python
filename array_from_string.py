@@ -33,7 +33,6 @@ def arrayFromStringTrainImageIntegral(image_integral_list) :
                             int_str += image_integral_list[i]
                             i += 1
                         if int_str :
-                            print(int_str)
                             temp_temp_temp_array.append(float(int_str))
                         if image_integral_list[i] == "," :
                             i += 1
