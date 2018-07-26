@@ -20,7 +20,8 @@ def integral_image(picture) :
         for y in range(nb_rows) :
             supp_image[y][x] = picture[y][x] if (y==0) else supp_image[y-1][x] + picture[y][x]
             integral_image[y][x] = supp_image[y][x] if (x==0) else integral_image[y][x-1] + supp_image[y][x]
-            
+    for y in range(nb_rows) :
+        integral_image[y] = list(integral_image[y])
     return integral_image
 
 #returns the pixels sum in the given rectangle on the n-th image
@@ -69,11 +70,14 @@ def h(i, f) :
 
 #trains K times the classifier number i
 def train_1classifier(i) :
+    global need_to_update_train_images_integral_on_drive
     for k in range(K) :
         n = np.random.randint(len_train_dataset)
-        if not(i in train_images_features[n][0]) :
-            train_images_integral[n] = list(integral_image(train_images[n]))
+        if(train_images_integral[n] == []) :
+            print("Needed to compute an integral_image")
             need_to_update_train_images_integral_on_drive = True
+            train_images_integral[n] = list(integral_image(train_images[n]))
+        if not(i in train_images_features[n][0]) :
             feature_i_n = calc_1feature(n,i)
             train_images_features[n][0].append(i)
             train_images_features[n][1].append(feature_i_n)
@@ -105,24 +109,25 @@ print("---- done ----")
 
 #saves train_images_integral and train_images_features to .txt
 print("**** saving train_images_integral .txt ****")
-fichier = open("train_images_integral.txt","w")
-fichier.write("[")
-for i in range(len(train_images_integral)) :
-    arr = train_images_integral[i]
-    if arr == [] :
-        fichier.write("[]")
-    else :
-        fichier.write("[")
-        for j in range(len(arr)) :
-            array = arr[j]
-            fichier.write(str(list(array)))
-            if j < len(arr) - 1 :
-                fichier.write(", ")
-        fichier.write("]")
-    if i < len(train_images_integral) - 1 :
-        fichier.write(", ")
-fichier.write("]")
-fichier.close()
+if(need_to_update_train_images_integral_on_drive) :
+    fichier = open("train_images_integral.txt","w")
+    fichier.write("[")
+    for i in range(len(train_images_integral)) :
+        arr = train_images_integral[i]
+        if arr == [] :
+            fichier.write("[]")
+        else :
+            fichier.write("[")
+            for j in range(len(arr)) :
+                array = arr[j]
+                fichier.write(str(list(array)))
+                if j < len(arr) - 1 :
+                    fichier.write(", ")
+            fichier.write("]")
+        if i < len(train_images_integral) - 1 :
+            fichier.write(", ")
+    fichier.write("]")
+    fichier.close()
 print("---- done ----")
 print("**** saving train_images_features .txt ****")
 fichier = open("train_images_features.txt","w")
