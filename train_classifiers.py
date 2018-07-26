@@ -25,6 +25,7 @@ def integral_image(picture) :
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
+    x, y, w, h = int(x), int(y), int(w), int(h)
     res = train_images_integral[n][y][x]
     res += train_images_integral[n][y+h][x+w]
     res -= train_images_integral[n][y][x+w]
@@ -71,7 +72,7 @@ def train_1classifier(i) :
     for k in range(K) :
         n = np.random.randint(len_train_dataset)
         if not(i in train_images_features[n][0]) :
-            train_images_integral[n] = integral_image(train_images[n])
+            train_images_integral[n] = list(integral_image(train_images[n]))
             feature_i_n = calc_1feature(n,i)
             train_images_features[n][0].append(i)
             train_images_features[n][1].append(feature_i_n)
@@ -104,7 +105,22 @@ print("---- done ----")
 #saves train_images_integral and train_images_features to .txt
 print("**** saving train_images_integral .txt ****")
 fichier = open("train_images_integral.txt","w")
-fichier.write(str(train_images_integral))
+fichier.write("[")
+for i in range(len(integral_image)) :
+    arr = integral_image[i]
+    if arr == [] :
+        fichier.write("[]")
+    else :
+        fichier.write("[")
+        for j in range(len(arr)) :
+            array = arr[j]
+            fichier.write(str(list(array)))
+            if j < len(arr) - 1 :
+                fichier.write(", ")
+        fichier.write("]")
+    if i < len(integral_image) - 1 :
+        fichier.write(", ")
+fichier.write("]")
 fichier.close()
 print("---- done ----")
 print("**** saving train_images_features .txt ****")

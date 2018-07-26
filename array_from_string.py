@@ -33,7 +33,8 @@ def arrayFromStringTrainImageIntegral(image_integral_list) :
                             int_str += image_integral_list[i]
                             i += 1
                         if int_str :
-                            temp_temp_temp_array.append(int(int_str))
+                            print(int_str)
+                            temp_temp_temp_array.append(float(int_str))
                         if image_integral_list[i] == "," :
                             i += 1
                             #print(image_integral_list[i] == " ")
@@ -78,7 +79,7 @@ def arrayFromStringTrainImageFeatures(image_features_list) :
                 int_str += image_features_list[i]
                 i += 1
             if int_str :
-                temp_array_1.append(int(int_str))
+                temp_array_1.append(float(int_str))
             #print(image_features_list[i] == ",")
             if image_features_list[i] == "," :
                 i+=1
@@ -97,7 +98,7 @@ def arrayFromStringTrainImageFeatures(image_features_list) :
             while image_features_list[i] != "," and image_features_list[i] != "]" :
                 int_str += image_features_list[i]
                 i += 1
-            temp_array_2.append(int(int_str))
+            temp_array_2.append(float(int_str))
             #print(image_features_list[i] == ",")
             if image_features_list[i] == "," :
                 i+=1
@@ -124,7 +125,7 @@ def arrayFromStringFeaturesList(features_list) :
         temp_array = []
         #print(features_list[i] == "[")
         i+=1
-        temp_array.append(int(features_list[i]))
+        temp_array.append(float(features_list[i]))
         i+=1
         #print(features_list[i] == ",")
         i+=1
@@ -134,28 +135,28 @@ def arrayFromStringFeaturesList(features_list) :
         while(features_list[i] != ",") :
             int_str+=features_list[i]
             i+=1
-        temp_temp_array = [int(int_str)]
+        temp_temp_array = [float(int_str)]
         #print(features_list[i] == ",")
         i+=1
         int_str = ""
         while(features_list[i] != ",") :
             int_str+=features_list[i]
             i+=1
-        temp_temp_array.append(int(int_str))
+        temp_temp_array.append(float(int_str))
         #print(features_list[i] == ",")
         i+=1
         int_str = ""
         while(features_list[i] != ",") :
             int_str+=features_list[i]
             i+=1
-        temp_temp_array.append(int(int_str))
+        temp_temp_array.append(float(int_str))
         #print(features_list[i] == ",")
         i+=1
         int_str = ""
         while(features_list[i] != "]") :
             int_str+=features_list[i]
             i+=1
-        temp_temp_array.append(int(int_str))
+        temp_temp_array.append(float(int_str))
         temp_array.append(temp_temp_array)
         #print(features_list[i] == "]")
         i+=1
@@ -182,14 +183,14 @@ def arrayFromStringClassifieurs(classifiers_list) :
         while(classifiers_list[i] != ",") :
             int_str+=classifiers_list[i]
             i+=1
-        temp_array = [int(int_str)]
+        temp_array = [float(int_str)]
         #print(classifiers_list[i] == ",")
         i+=1
         int_str = ""
         while(classifiers_list[i] != "]") :
             int_str+=classifiers_list[i]
             i+=1
-        temp_array.append(int(int_str))
+        temp_array.append(float(int_str))
         #print(classifiers_list[i] == "]")
         i+=1
         #print(classifiers_list[i] == ",")
