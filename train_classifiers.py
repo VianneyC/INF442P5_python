@@ -73,6 +73,7 @@ def train_1classifier(i) :
         n = np.random.randint(len_train_dataset)
         if not(i in train_images_features[n][0]) :
             train_images_integral[n] = list(integral_image(train_images[n]))
+            need_to_update_train_images_integral_on_drive = True
             feature_i_n = calc_1feature(n,i)
             train_images_features[n][0].append(i)
             train_images_features[n][1].append(feature_i_n)
