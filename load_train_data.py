@@ -34,27 +34,13 @@ train_images, train_labels = load_data(os.path.join("/home/vianney/Documents","I
 print("---- done ----")
 
 
-#reads arrays for train_images_integral and train_images_features from .txt
-#
-#train_images_features = [ ...
-#                          ...
-#                          [[i1, i2, ...], [feature_i1_n, feature_i2_n, ...]],
-#                          ...
-#                          ... ]
-#with line n containing features of image n
-#
+#reads arrays for train_images_integral
 len_train_dataset = len(train_images)
 print("**** creating train_images_integral from train_images_integral.txt ****")
 fichier = open("train_images_integral.txt","r")
 train_images_integral = fichier.read()
 fichier.close()
 train_images_integral = array_from_string.arrayFromStringTrainImageIntegral(train_images_integral)
-print("---- done ----")
-print("**** creating train_images_features from train_images_features.txt ****")
-fichier = open("train_images_features.txt","r")
-train_images_features = fichier.read()
-fichier.close()
-train_images_features = array_from_string.arrayFromStringTrainImageFeatures(train_images_features)
 print("---- done ----")
 
 

@@ -55,8 +55,6 @@ def calc_1feature(n,i) :
         res -= sum_rect(x_origin,y_origin,width,height,n)
         res -= sum_rect(x_origin+width,y_origin+height,width,height,n)
     return res
-                        
-        
 
 #computes and returns the value of h(i,c) = h_i(x)
 #where i is the number of the classifier and f
@@ -75,12 +73,7 @@ def train_1classifier(i) :
             print("Needed to compute an integral_image")
             need_to_update_train_images_integral_on_drive = True
             train_images_integral[n] = list(integral_image(train_images[n]))
-        if not(i in train_images_features[n][0]) :
-            feature_i_n = calc_1feature(n,i)
-            train_images_features[n][0].append(i)
-            train_images_features[n][1].append(feature_i_n)
-        else :
-            feature_i_n = train_images_features[n][1][train_images_features[n][0].index(i)]
+        feature_i_n = calc_1feature(n,i)
         label_n = train_labels[n]
         classifiers[i][0] -= epsilon * ( h(i,feature_i_n) - label_n) * feature_i_n
         classifiers[i][1] -= epsilon * ( h(i,feature_i_n) - label_n)
@@ -122,20 +115,12 @@ if(need_to_update_train_images_integral_on_drive) :
                 if j < len(arr) - 1 :
                     fichier.write(", ")
             fichier.write("]")
+        
         if i < len(train_images_integral) - 1 :
             fichier.write(", ")
     fichier.write("]")
     fichier.close()
 print("---- done ----")
-print("**** saving train_images_features .txt ****")
-fichier = open("train_images_features.txt","w")
-fichier.write(str(train_images_features))
-fichier.close()
-print("---- done ----")
-
-
-
-
 
 
 """

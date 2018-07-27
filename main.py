@@ -12,9 +12,9 @@ execfile("load_train_data.py")
 #will load classifiers from classifiers.txt
 execfile("load_classifiers.py")
 
-K = 5
+K = 2
 #do not change espilon
-epsilon = 0.05
+epsilon = 0.1
 
 need_to_update_train_images_integral_on_drive = False
 #will train classifiers with parameters (K,epsilon)
