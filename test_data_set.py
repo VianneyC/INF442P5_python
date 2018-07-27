@@ -53,13 +53,13 @@ accuracy = 0.
 
 print("**** testing weak classifiers on test_dataset ****")
 for n in range(len_test_dataset) :
-    print("testing image {0} out of {1}".format(n, len_dataset))
+    print("testing image {0} out of {1}".format(n, len_test_dataset))
     tot_n = 0
     for i in range(len_vec_features) :
         feature_i_n = calc_1feature(n,i)
         tot_n += h(i, feature_i_n)
     tot_n = float(tot_n) / len_vec_features
-    if int(2*tot_n) == test_labels[n] == 0 :
+    if 2*int(2*tot_n) - 1 == test_labels[n] :
         accuracy += 1
 accuracy = float(accuracy) / len_test_dataset
 print("---- done ----")
