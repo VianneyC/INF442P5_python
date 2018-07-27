@@ -10,10 +10,10 @@ import numpy as np
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
     x, y, w, h = int(x), int(y), int(w), int(h)
-    res = train_images_integral[n][y][x]
-    res += train_images_integral[n][y+h][x+w]
-    res -= train_images_integral[n][y][x+w]
-    res -= train_images_integral[n][y+h][x]
+    res = test_images_integral[n][y][x]
+    res += test_images_integral[n][y+h][x+w]
+    res -= test_images_integral[n][y][x+w]
+    res -= test_images_integral[n][y+h][x]
     return res
 
 #computes and returns the i-th feature of the n-th image
@@ -64,4 +64,3 @@ for n in range(len_test_dataset) :
 accuracy = float(accuracy) / len_test_dataset
 print("---- done ----")
 print("accuracy = " + str(accuracy))
-        
