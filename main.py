@@ -12,7 +12,7 @@ execfile("load_train_data.py")
 #will load classifiers from classifiers.txt
 execfile("load_classifiers.py")
 
-K = 1
+K = 5
 #do not change espilon
 epsilon = 0.05
 

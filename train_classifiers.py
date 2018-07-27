@@ -20,8 +20,6 @@ def integral_image(picture) :
         for y in range(nb_rows) :
             supp_image[y][x] = picture[y][x] if (y==0) else supp_image[y-1][x] + picture[y][x]
             integral_image[y][x] = supp_image[y][x] if (x==0) else integral_image[y][x-1] + supp_image[y][x]
-    for y in range(nb_rows) :
-        integral_image[y] = list(integral_image[y])
     return integral_image
 
 #returns the pixels sum in the given rectangle on the n-th image
