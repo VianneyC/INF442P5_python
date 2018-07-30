@@ -24,7 +24,7 @@ def load_data(data_directory):
                       if f.endswith(".jpg")]
         for f in file_names:
             images.append(skimage.data.imread(f))
-            labels.append((1 if str(os.path.basename(data_directory)) == "pos" else -1))
+            labels.append((1 if str(label_directory)[-4:] == "/pos" else -1))
     return images, labels
 
 #computes integral_image of a given picture
