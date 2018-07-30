@@ -1,19 +1,20 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul 27 14:38:45 2018
+Created on Fri Jul 27 15:01:37 2018
 
 @author: vianney
 """
+
 import numpy as np
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
     x, y, w, h = int(x), int(y), int(w), int(h)
-    res = test_images_integral[n][y][x]
-    res += test_images_integral[n][y+h][x+w]
-    res -= test_images_integral[n][y][x+w]
-    res -= test_images_integral[n][y+h][x]
+    res = train_images_integral[n][y][x]
+    res += train_images_integral[n][y+h][x+w]
+    res -= train_images_integral[n][y][x+w]
+    res -= train_images_integral[n][y+h][x]
     return res
 
 #computes and returns the i-th feature of the n-th image
@@ -49,23 +50,47 @@ def h(i, f) :
             return 1
         return -1
 
-accuracy = 0.
 
-print("**** testing weak classifiers on test_dataset ****")
-for n in range(len_test_dataset) :
-    print("testing image {0} out of {1}".format(n, len_test_dataset))
-    tot_n = 0
-    for i in range(len_vec_features) :
-        feature_i_n = calc_1feature(n,i)
-        tot_n += h(i, feature_i_n)
-    tot_n = float(tot_n) / len_vec_features
-    if int(tot_n > 0) :
-        print("+1 :" +str(test_labels[n]))
-    else :
-        print("-1 :" +str(test_labels[n]))
-    if int(tot_n > 0) *2 - 1 == test_labels[n] :
-        accuracy += 1
-    print(accuracy / (n + 1.))
-accuracy = float(accuracy) / len_test_dataset
-print("---- done ----")
-print("accuracy = " + str(accuracy))
+def E(h,c) :
+    return int(h == c)
+
+def eps(i) :
+    res = 0
+    for j in range(len_train_dataset) :
+        res+=lambda_list[i][j]*int( (h(i, calc_1feature(j,i)) == train_labels[j]) )
+    return res    
+    
+def choose_minimizing_classifier(k) :
+    i_k = 0
+    epsilon_k = eps(i_k)
+    min_epsilon_k = epsilon_k
+    for i in range(lev_vec_feature) :
+        epsilon_k = eps(i)
+        if epsilon_k < min_epsilon_k :
+            min_epsilon_k = epsilon_k
+            i_k = i
+    return i_k
+    
+N = 20
+
+lambda_list = [[1./len_train_dataset for j in range(len_train_dataset)] for k in range(N)]
+alpha_list = []
+
+for k in range(N) :
+    i_k = choose_minimizing_classifier(k)
+    epsilon_k = eps(i_k)
+    alpha_list.append( 1/2. * np.log( (1.-epsilon_k) / epsilon_k ) )
+    
+    som = 0
+    for j in range(len_train_dataset) :
+        lambda_list[k+1][j] = lambda_list[k][j] * np.exp( - train_labels[j] * alpha_list[k] * h(k, calc_1feature(j, k)))
+        som += lambda_list[k+1][j]
+    for j in range(len_train_dataset) :
+        lambda_list[k+1][j] *= 1./som
+
+fichier = open("alpha_list.txt","w")
+fichier.write(str(alpha_list))
+fichier.close()
+        
+    
+    
