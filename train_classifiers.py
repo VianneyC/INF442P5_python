@@ -8,6 +8,20 @@ Created on Wed Jul 25 11:05:13 2018
 
 import numpy as np
 
+#computes integral_image of a given picture
+def integral_image(picture) :
+    integral_image = np.zeros(picture.shape)
+    supp_image = np.zeros(picture.shape)
+
+    nb_rows = picture.shape[0]
+    nb_cols = picture.shape[1]
+
+    for x in range(nb_cols) :
+        for y in range(nb_rows) :
+            supp_image[y][x] = picture[y][x] if (y==0) else supp_image[y-1][x] + picture[y][x]
+            integral_image[y][x] = supp_image[y][x] if (x==0) else integral_image[y][x-1] + supp_image[y][x]
+    return integral_image
+
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
     x, y, w, h = int(x), int(y), int(w), int(h)
