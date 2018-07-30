@@ -57,6 +57,8 @@ false_positive = 0
 false_negative = 0
 true_negative = 0
 
+#accuracy = 0
+
 Y = []
 
 print("**** testing weak classifiers on test_dataset ****")
@@ -64,7 +66,7 @@ p = progressbar.ProgressBar(len_test_dataset)
 old_n = 0
 p.animate(0)
 for n in range(len_test_dataset) :
-    print("testing image {0} out of {1}".format(n, len_test_dataset))
+    #print("testing image {0} out of {1}".format(n, len_test_dataset))
     tot_n = 0
     for i in range(len_vec_features) :
         feature_i_n = calc_1feature(n,i)
@@ -80,8 +82,8 @@ for n in range(len_test_dataset) :
         false_positive+=1
     if tot_n < 0 and test_labels[n] == -1 :
         true_negative += 1
-    if int(tot_n > 0) *2 - 1 == test_labels[n] :
-        accuracy += 1
+    #if int(tot_n > 0) *2 - 1 == test_labels[n] :
+    #    accuracy += 1
     if(n - old_n > len_test_dataset / 100.) :
         p.animate(n)
         old_n = n
