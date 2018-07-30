@@ -10,6 +10,7 @@ import os
 import skimage.data
 import array_from_string
 import numpy as np
+import progressbar
 
 #loads images and labels from parent directory
 def load_data(data_directory):
@@ -61,6 +62,9 @@ print("---- done ----")
 print("**** checking train_images_integral ****")
 compute = True
 need_to_update_train_images_integral_on_drive = False
+p = progressbar.ProgressBar(len_train_dataset)
+old_n = 0
+p.animate(0)
 for n in range(len_train_dataset) :
     if(train_images_integral[n] == []) :
         if compute :
@@ -68,6 +72,11 @@ for n in range(len_train_dataset) :
             print("**** computing missing train_images_integral ****")
         train_images_integral[n] = list(integral_image(train_images[n]))
         need_to_update_train_images_integral_on_drive = True
+        if(n - old_n > len_train_dataset / 100.) :
+            p.animate(n)
+            old_n = n
+
+p.ciao()
 if not compute :
     print("---- done ----")
 print("---- done ----")
@@ -77,6 +86,9 @@ if(need_to_update_train_images_integral_on_drive) :
     print("**** saving train_images_integral.txt ****")
     fichier = open("train_images_integral.txt","w")
     fichier.write("[")
+    p = progressbar.ProgressBar(len(train_images_integral))
+    old_i = 0
+    p.animate(0)
     for i in range(len(train_images_integral)) :
         arr = train_images_integral[i]
         if arr == [] :
@@ -92,8 +104,12 @@ if(need_to_update_train_images_integral_on_drive) :
         
         if i < len(train_images_integral) - 1 :
             fichier.write(", ")
+        if(i - old_i > len(train_images_integral) / 100.) :
+            p.animate(i)
+            old_i = i
     fichier.write("]")
     fichier.close()
+    p.ciao()
     print("---- done ----")
 
 #creates features_patterns_list from features_patterns.txt

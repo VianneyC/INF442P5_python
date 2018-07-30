@@ -6,11 +6,16 @@ Created on Wed Jul 25 16:46:53 2018
 @author: vianney
 """
 
+import progressbar
+
 #returns an array created from the image_integral_list string
 def arrayFromStringTrainImageIntegral(image_integral_list) :
     array = []
     i = 1
     j = 0
+    old_i = 0
+    p = progressbar.ProgressBar(len(image_integral_list))
+    p.animate(0)
     while i < len(image_integral_list) - 1 :
         #print(image_integral_list[i] == "[")
         i += 1
@@ -46,6 +51,10 @@ def arrayFromStringTrainImageIntegral(image_integral_list) :
             i += 1
             #print(image_integral_list[i] == " ")
             i += 1
+        if(i-old_i > len(image_integral_list) / 100.) :
+            old_i = i
+            p.animate(i)
+    p.ciao()
     return array
 
 
@@ -55,6 +64,9 @@ def arrayFromStringFeaturesList(features_list) :
     array = []
     i = 1
     j = 0
+    old_i = 0
+    p = progressbar.ProgressBar(len(features_list))
+    p.animate(0)
     while i < len(features_list)-1 :
         temp_array = []
         #print(features_list[i] == "[")
@@ -112,6 +124,10 @@ def arrayFromStringFeaturesList(features_list) :
         array.append(temp_array)
         j += 1
         #print(j)
+        if(i-old_i > len(features_list) / 100.) :
+            old_i = i
+            p.animate(i)
+    p.ciao()    
     return array
 
 #creates classifiers array from classifieurs.txt
@@ -119,6 +135,9 @@ def arrayFromStringClassifieurs(classifiers_list) :
     array = []
     i = 1
     j = 0
+    old_i = 0
+    p = progressbar.ProgressBar(len(classifiers_list))
+    p.animate(0)
     while i < len(classifiers_list)-1 :
         temp_array = []
         #print(classifiers_list[i] == "[")
@@ -145,6 +164,10 @@ def arrayFromStringClassifieurs(classifiers_list) :
         array.append(temp_array)
         j += 1
         #print(j)
+        if(i-old_i > len(classifiers_list) / 100.) :
+            old_i = i
+            p.animate(i)        
+    p.ciao()
     return array
 
 
@@ -157,6 +180,9 @@ def arrayFromStringTrainImageFeatures(image_features_list) :
     array = []
     i = 1
     j = 0
+    old_i = 0
+    p = progressbar.ProgressBar(len(image_features_list))
+    p.animate(0)
     while i < len(image_features_list)-1 :
         #print(image_features_list[i] == "[")
         i+=1
@@ -204,4 +230,8 @@ def arrayFromStringTrainImageFeatures(image_features_list) :
         array.append([temp_array_1, temp_array_2])
         #print(j)
         j += 1
+        if(i-old_i > len(image_features_list) / 100.) :
+            old_i = i
+            p.animate(i)      
+    p.ciao()
     return array

@@ -7,6 +7,7 @@ Created on Wed Jul 25 11:05:13 2018
 """
 
 import numpy as np
+import progressbar
 
 #computes integral_image of a given picture
 def integral_image(picture) :
@@ -76,10 +77,17 @@ def train_1classifier(i) :
 
 
 #trains every classifier K times with epsilon
-def train_classifiers() :    
+def train_classifiers() :
+    p = progressbar.ProgressBar(len_vec_features)
+    old_i = 0
+    p.animate(0)
     for i in range(len_vec_features) :
-        print("classifier {0} out of {1} is being trained".format(str(i),str(len_vec_features)))
+        #print("classifier {0} out of {1} is being trained".format(str(i),str(len_vec_features)))
         train_1classifier(i)
+        if(i-old_i > len_vec_features / 100.) :
+            p.animate(i)
+            old_i = i
+    p.ciao()
 
 
 #trains every classifier K times with epsilon over the train_dataset

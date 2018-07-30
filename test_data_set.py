@@ -7,6 +7,7 @@ Created on Fri Jul 27 14:38:45 2018
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import progressbar
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
@@ -56,8 +57,12 @@ false_positive = 0
 false_negative = 0
 true_negative = 0
 
+Y = []
 
 print("**** testing weak classifiers on test_dataset ****")
+p = progressbar.ProgressBar(len_test_dataset)
+old_n = 0
+p.animate(0)
 for n in range(len_test_dataset) :
     print("testing image {0} out of {1}".format(n, len_test_dataset))
     tot_n = 0
@@ -77,8 +82,10 @@ for n in range(len_test_dataset) :
         true_negative += 1
     if int(tot_n > 0) *2 - 1 == test_labels[n] :
         accuracy += 1
-
-
+    if(n - old_n > len_test_dataset / 100.) :
+        p.animate(n)
+        old_n = n
+p.ciao()
 if(float(true_positive + false_negative) != 0) :
     detection_rate = true_positive / float(true_positive + false_negative)
 else :
@@ -91,8 +98,8 @@ if(float(false_positive + true_negative) != 0) :
     false_alarm_rate = false_positive / float(false_positive + true_negative)
 else :
     false_alarm_rate = "NaN"
-if(float(precision + detection_rate) != 0) :
-    f_score = 2 * precision * detection_rate / float(precision + detection_rate)
+if(float(2 * true_positive + false_negative + false_positive) != 0) :
+    f_score = 2 / float(2 * true_positive + false_negative + false_positive)
 else :
     f_score = "NaN"
     
@@ -103,5 +110,7 @@ print("precision = " + str(precision))
 print("false_alarm_rate = " + str(false_alarm_rate))
 print("f_score = " + str(f_score))
 
+print("mean on negative = " + str(np.mean(Y[:415])))
+print("mean on positive = " + str(np.mean(Y[415:])))
 #accuracy = float(accuracy) / len_test_dataset
 #print("accuracy = " + str(accuracy))
