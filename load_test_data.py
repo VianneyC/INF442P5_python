@@ -24,7 +24,7 @@ def load_data(data_directory):
                       if f.endswith(".jpg")]
         for f in file_names:
             images.append(skimage.data.imread(f))
-            labels.append((1 if str(os.path.basename(data_directory)) == "pos" else -1))
+            labels.append((1 if str(label_directory)[-4:] == "/pos" else -1))
     return images, labels
 
 #computes integral_image of a given picture
@@ -93,3 +93,12 @@ if(need_to_update_test_images_integral_on_drive) :
     fichier.write("]")
     fichier.close()
     print("---- done ----")
+    
+#creates features_patterns_list from features_patterns.txt
+print("**** creating features_patterns_list from features_patterns.txt ****")
+fichier = open("features_patterns.txt","r")
+features_patterns_list = fichier.read()
+fichier.close()
+features_patterns_list = array_from_string.arrayFromStringFeaturesList(features_patterns_list)
+len_vec_features = len(features_patterns_list)
+print("---- done ----")
