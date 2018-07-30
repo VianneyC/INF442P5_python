@@ -170,6 +170,37 @@ def arrayFromStringClassifieurs(classifiers_list) :
     p.ciao()
     return array
 
+#creates classifiers array from classifieurs.txt
+# and returns it and N
+def arrayFromStringLambda(lambda_list) :
+    array = []
+    N = 0
+    p = progressbar.ProgressBar(len(lambda_list))
+    p.animate(0)
+    i = 1
+    old_i = 0
+    int_str = ""
+    while lambda_list[i] != "," :
+        print lambda_list[i]
+        int_str += lambda_list[i]
+        i += 1
+    N = float(int_str)
+    print(lambda_list[i] == ',')
+    i += 1
+    print(lambda_list[i] == ' ')
+    i += 1
+    print(lambda_list[i] == '[')
+    i += 1
+    while i < len(lambda_list) - 2 :
+        int_str = ""
+        while lambda_list[i] != "," and lambda_list[i] != "]" :
+            int_str += lambda_list[i]
+            i += 1
+        print(int_str)
+        array.append(float(int_str))
+        i+=2
+    return (N,array)
+
 
 """
 Other functions that can be used if needed

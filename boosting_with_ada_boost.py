@@ -7,6 +7,7 @@ Created on Fri Jul 27 15:01:37 2018
 """
 
 import numpy as np
+import array_from_string
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
@@ -50,47 +51,60 @@ def h(i, f) :
             return 1
         return -1
 
-
+#error function
 def E(h,c) :
-    return int(h == c)
+    return int(h != c)
 
 def eps(i) :
     res = 0
     for j in range(len_train_dataset) :
-        res+=lambda_list[i][j]*int( (h(i, calc_1feature(j,i)) == train_labels[j]) )
-    return res    
-    
+        res+=lambda_list[j]*E(h(i, calc_1feature(j,i)), train_labels[j])
+    return res
+
+#returns the i_k such that h_i_k minimizes the sum    
 def choose_minimizing_classifier(k) :
     i_k = 0
     epsilon_k = eps(i_k)
     min_epsilon_k = epsilon_k
-    for i in range(lev_vec_feature) :
+    for i in range(1, len_vec_features) :
         epsilon_k = eps(i)
         if epsilon_k < min_epsilon_k :
             min_epsilon_k = epsilon_k
             i_k = i
     return i_k
-    
-N = 20
 
-lambda_list = [[1./len_train_dataset for j in range(len_train_dataset)] for k in range(N)]
+print("**** getting lambda_list from lambda_list.txt ****")
+fichier = open("lambda_list.txt","r")
+lambda_list = fichier.read()
+fichier.close()
+lambda_list = array_from_string.arrayFromStringLambda(lambda_list)
+N = int(lambda_list[0])
+lambda_list = lambda_list[1]
+print("---- done ----")
+
+print("**** boosting weak classifiers with N = {0} ****".format(N))    
+old_lambda_list = [0 for j in range(len_train_dataset)]
+lambda_list = [1./len_train_dataset for j in range(len_train_dataset)]
 alpha_list = []
 
 for k in range(N) :
+    print(k)
     i_k = choose_minimizing_classifier(k)
+    print("minimized")
     epsilon_k = eps(i_k)
-    alpha_list.append( 1/2. * np.log( (1.-epsilon_k) / epsilon_k ) )
-    
+    alpha_list.append( 1/2. * np.log( (1.-epsilon_k) / float(epsilon_k) ) )
     som = 0
     for j in range(len_train_dataset) :
-        lambda_list[k+1][j] = lambda_list[k][j] * np.exp( - train_labels[j] * alpha_list[k] * h(k, calc_1feature(j, k)))
-        som += lambda_list[k+1][j]
+        old_lambda_list[j] = lambda_list[j]
     for j in range(len_train_dataset) :
-        lambda_list[k+1][j] *= 1./som
+        lambda_list[j] = old_lambda_list[j] * np.exp( - train_labels[j] * alpha_list[k] * h(i_k, calc_1feature(j, i_k)))
+        som += lambda_list[j]
+    for j in range(len_train_dataset) :
+        lambda_list *= 1./som
+print("---- done ----")
 
-fichier = open("alpha_list.txt","w")
-fichier.write(str(alpha_list))
+print("**** saving N and lambda_list in .txt ****")
+fichier = open("lambda_list.txt","w")
+fichier.write(str([N,lambda_list]))
 fichier.close()
-        
-    
-    
+print("---- done ----")
