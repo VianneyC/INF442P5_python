@@ -6,6 +6,7 @@ Created on Fri Jul 27 14:38:45 2018
 @author: vianney
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
@@ -49,7 +50,12 @@ def h(i, f) :
             return 1
         return -1
 
-accuracy = 0.
+#initializes the confusion matrix
+true_positive = 0
+false_positive = 0
+false_negative = 0
+true_negative = 0
+
 
 print("**** testing weak classifiers on test_dataset ****")
 for n in range(len_test_dataset) :
@@ -58,14 +64,44 @@ for n in range(len_test_dataset) :
     for i in range(len_vec_features) :
         feature_i_n = calc_1feature(n,i)
         tot_n += h(i, feature_i_n)
+
     tot_n = float(tot_n) / len_vec_features
-    if int(tot_n > 0) :
-        print("+1 :" +str(test_labels[n]))
-    else :
-        print("-1 :" +str(test_labels[n]))
+    Y.append(tot_n)    
+    if tot_n > 0 and test_labels[n] == 1 :
+        true_positive += 1
+    if tot_n < 0 and test_labels[n] == 1 :
+        false_negative += 1
+    if tot_n > 0 and test_labels[n] == -1 :
+        false_positive+=1
+    if tot_n < 0 and test_labels[n] == -1 :
+        true_negative += 1
     if int(tot_n > 0) *2 - 1 == test_labels[n] :
         accuracy += 1
-    print(accuracy / (n + 1.))
-accuracy = float(accuracy) / len_test_dataset
+
+
+if(float(true_positive + false_negative) != 0) :
+    detection_rate = true_positive / float(true_positive + false_negative)
+else :
+    detection_rate = "NaN"
+if(float(true_positive + false_positive) != 0) :
+    precision = true_positive / float(true_positive + false_positive)
+else :
+    precision = "NaN"
+if(float(false_positive + true_negative) != 0) :
+    false_alarm_rate = false_positive / float(false_positive + true_negative)
+else :
+    false_alarm_rate = "NaN"
+if(float(precision + detection_rate) != 0) :
+    f_score = 2 * precision * detection_rate / float(precision + detection_rate)
+else :
+    f_score = "NaN"
+    
 print("---- done ----")
-print("accuracy = " + str(accuracy))
+
+print("detection_rate = " + str(detection_rate))
+print("precision = " + str(precision))
+print("false_alarm_rate = " + str(false_alarm_rate))
+print("f_score = " + str(f_score))
+
+#accuracy = float(accuracy) / len_test_dataset
+#print("accuracy = " + str(accuracy))
