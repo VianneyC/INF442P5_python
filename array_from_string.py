@@ -14,8 +14,7 @@ def arrayFromStringTrainImageIntegral(image_integral_list) :
     i = 1
     j = 0
     old_i = 0
-    p = progressbar.ProgressBar(len(image_integral_list))
-    p.animate(0)
+    p = progressbar.ProgressBar(len(image_integral_list))    
     while i < len(image_integral_list) - 1 :
         #print(image_integral_list[i] == "[")
         i += 1
@@ -65,8 +64,7 @@ def arrayFromStringFeaturesList(features_list) :
     i = 1
     j = 0
     old_i = 0
-    p = progressbar.ProgressBar(len(features_list))
-    p.animate(0)
+    p = progressbar.ProgressBar(len(features_list))    
     while i < len(features_list)-1 :
         temp_array = []
         #print(features_list[i] == "[")
@@ -136,8 +134,7 @@ def arrayFromStringClassifieurs(classifiers_list) :
     i = 1
     j = 0
     old_i = 0
-    p = progressbar.ProgressBar(len(classifiers_list))
-    p.animate(0)
+    p = progressbar.ProgressBar(len(classifiers_list))    
     while i < len(classifiers_list)-1 :
         temp_array = []
         #print(classifiers_list[i] == "[")
@@ -175,8 +172,7 @@ def arrayFromStringClassifieurs(classifiers_list) :
 def arrayFromStringLambda(lambda_list) :
     array = []
     N = 0
-    p = progressbar.ProgressBar(len(lambda_list))
-    p.animate(0)
+    p = progressbar.ProgressBar(len(lambda_list))    
     i = 1
     old_i = 0
     int_str = ""
@@ -213,7 +209,6 @@ def arrayFromStringTrainImageFeatures(image_features_list) :
     j = 0
     old_i = 0
     p = progressbar.ProgressBar(len(image_features_list))
-    p.animate(0)
     while i < len(image_features_list)-1 :
         #print(image_features_list[i] == "[")
         i+=1

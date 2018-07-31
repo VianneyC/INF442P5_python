@@ -64,7 +64,6 @@ Y = []
 print("**** testing weak classifiers on test_dataset ****")
 p = progressbar.ProgressBar(len_test_dataset)
 old_n = 0
-p.animate(0)
 for n in range(len_test_dataset) :
     #print("testing image {0} out of {1}".format(n, len_test_dataset))
     tot_n = 0

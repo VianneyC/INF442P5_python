@@ -80,7 +80,6 @@ def train_1classifier(i) :
 def train_classifiers() :
     p = progressbar.ProgressBar(len_vec_features)
     old_i = 0
-    p.animate(0)
     for i in range(len_vec_features) :
         #print("classifier {0} out of {1} is being trained".format(str(i),str(len_vec_features)))
         train_1classifier(i)

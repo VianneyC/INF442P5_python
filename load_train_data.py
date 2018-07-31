@@ -64,7 +64,6 @@ compute = True
 need_to_update_train_images_integral_on_drive = False
 p = progressbar.ProgressBar(len_train_dataset)
 old_n = 0
-p.animate(0)
 for n in range(len_train_dataset) :
     if(train_images_integral[n] == []) :
         if compute :
@@ -88,7 +87,6 @@ if(need_to_update_train_images_integral_on_drive) :
     fichier.write("[")
     p = progressbar.ProgressBar(len(train_images_integral))
     old_i = 0
-    p.animate(0)
     for i in range(len(train_images_integral)) :
         arr = train_images_integral[i]
         if arr == [] :
