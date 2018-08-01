@@ -54,7 +54,7 @@ def h(i, f) :
 def eps(i) :
     res = 0
     for j in test_wrong_classified_lists[i] :
-        res+=lambda_list[j]
+        res+=lambda_list_test[j]
     return float(res)
 
 #returns the i_k such that h_i_k minimizes the sum    
@@ -70,9 +70,9 @@ def choose_minimizing_classifier(k) :
     return i_k
 
 
-num_epochs = 50
+num_epochs = 10
 
-print("**** boosting weak classifiers from N = {0} to N = {1} ****".format(N, N + num_epochs))    
+print("**** boosting weak classifiers from N = {0} to N = {1} ****".format(N, N + num_epochs))
 for k in range(N, N+num_epochs) :
     print(k)
     
@@ -81,25 +81,25 @@ for k in range(N, N+num_epochs) :
     print("minimized")
         
     alpha_k =  1/2. * np.log( (1.-epsilon_i_k) / float(epsilon_i_k) )
-    alpha_list.append([i_k, alpha_k ] )
+    alpha_list_test.append([i_k, alpha_k ] )
     
     normalized = float(epsilon_i_k * (np.exp( alpha_k) - np.exp(- alpha_k)) + np.exp(- alpha_k))
     for j in range(len_test_dataset) :
         if(j in test_wrong_classified_lists[i_k]) :
-            lambda_list[j] *= np.exp( alpha_k) / normalized
+            lambda_list_test[j] *= np.exp( alpha_k) / normalized
         else :
-            lambda_list[j] *= np.exp(- alpha_k) / normalized
+            lambda_list_test[j] *= np.exp(- alpha_k) / normalized
 N+=num_epochs
 print("---- done ----")
 
-print("**** saving lambda_list in .txt ****")
-fichier = open("lambda_list.txt","w")
-fichier.write(str(lambda_list))
+print("**** saving lambda_list_test in .txt ****")
+fichier = open("lambda_list_test.txt","w")
+fichier.write(str(lambda_list_test))
 fichier.close()
 print("---- done ----")
 
-print("**** saving alpha_list in .txt ****")
-fichier = open("alpha_list.txt","w")
-fichier.write(str(alpha_list))
+print("**** saving alpha_list_test in .txt ****")
+fichier = open("alpha_list_test.txt","w")
+fichier.write(str(alpha_list_test))
 fichier.close()
 print("---- done ----")

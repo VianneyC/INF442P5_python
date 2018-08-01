@@ -54,17 +54,20 @@ def h(i, f) :
     return -1
 
 
-print("**** getting alpha_list from alpha_list.txt ****")
-fichier = open("alpha_list.txt","r")
-alpha_list = fichier.read()
+print("**** getting alpha_list_test from alpha_list_test.txt ****")
+fichier = open("alpha_list_test.txt","r")
+alpha_list_test = fichier.read()
 fichier.close()
-alpha_list = array_from_string.arrayFromStringAlpha(alpha_list)
-N = len(alpha_list)
+if(len(alpha_list_test) != 2) :
+    alpha_list_test = array_from_string.arrayFromStringAlphaTest(alpha_list_test)
+else :
+    alpha_list_test = []
+N = len(alpha_list_test)
 print("---- done ----")
 
 #initializes the confusion matrix
 
-sum_alpha = np.sum([elt[1] for elt in alpha_list])
+sum_alpha = np.sum([elt[1] for elt in alpha_list_test])
 two_len_theta = 100
 precision_theta = 10
 threshold_array = np.array([the / float(two_len_theta) * sum_alpha for the in range(-two_len_theta,two_len_theta,precision_theta)])
@@ -81,7 +84,7 @@ Y = []
 for n in range(len_test_dataset) :
     #print("testing image {0} out of {1}".format(n, len_test_dataset))
     tot_n = 0
-    for tab in alpha_list :
+    for tab in alpha_list_test :
         i = int( tab[0] )
         feature_i_n = calc_1feature(n,i)
         tot_n += tab[1] * h(i, feature_i_n)
@@ -105,40 +108,69 @@ for n in range(len_test_dataset) :
 p.ciao()
 
 
-detection_rate_array = true_positive_array / (true_positive_array + false_negative_array)
-false_alarm_rate_array = false_positive_array / (false_positive_array + true_negative_array)
-precision_array = true_positive_array / (true_positive_array + false_positive_array)
-f_score_array = 2 / (2 * true_positive_array + false_negative_array + false_positive_array)
+#print(true_positive_array)
+#print(true_negative_array)
+#print(false_positive_array)
+#print(false_negative_array)
+
+detection_rate_array = np.array([np.NaN for k in range(len(threshold_array))])
+precision_array = np.array([np.NaN for k in range(len(threshold_array))])
+false_alarm_rate_array = np.array([np.NaN for k in range(len(threshold_array))])
+f_score_array = np.array([np.NaN for k in range(len(threshold_array))])
+
+for i in range(len(threshold_array)) :
+    if(float(true_positive_array[i] + false_negative_array[i]) != 0) :
+        detection_rate_array[i] = true_positive_array[i] / float(true_positive_array[i] + false_negative_array[i])
+    else :
+        detection_rate_array[i] = np.NaN
+    if(float(true_positive_array[i] + false_positive_array[i]) != 0) :
+        precision_array[i] = true_positive_array[i] / float(true_positive_array[i] + false_positive_array[i])
+    else :
+        precision_array[i] = np.NaN
+    if(float(false_positive_array[i] + true_negative_array[i]) != 0) :
+        false_alarm_rate_array[i] = false_positive_array[i] / float(false_positive_array[i] + true_negative_array[i])
+    else :
+        false_alarm_rate_array[i] = np.NaN
+    if(float(2 * true_positive_array[i] + false_negative_array[i] + false_positive_array[i]) != 0) :
+        f_score_array[i] = 2 / float(2 * true_positive_array[i] + false_negative_array[i] + false_positive_array[i])
+    else :
+        f_score_array[i] = np.NaN
+
+print(detection_rate_array)
+print(precision_array)
+print(false_alarm_rate_array)
+print(f_score_array)
+
+theta_max = np.nanargmax(f_score_array)
+
 print("---- done ----")
 
-f_score_max = np.nanmax(f_score_array)
-theta_max = np.nanargmax(f_score_array)
 
 print("detection_rate = " + str(detection_rate_array[theta_max]))
 print("precision = " + str(precision_array[theta_max]))
 print("false_alarm_rate = " + str(false_alarm_rate_array[theta_max]))
 print("f_score = " + str(f_score_array[theta_max]))
 
-plt.plot(threshold_array, f_score_array)
-plt.show()
+#plt.plot(threshold_array, f_score_array)
+#plt.show()
 
 """
 if(float(true_positive + false_negative) != 0) :
     detection_rate = true_positive / float(true_positive + false_negative)
 else :
-    detection_rate = "NaN"
+    detection_rate = np.NaN
 if(float(true_positive + false_positive) != 0) :
     precision = true_positive / float(true_positive + false_positive)
 else :
-    precision = "NaN"
+    precision = np.NaN
 if(float(false_positive + true_negative) != 0) :
     false_alarm_rate = false_positive / float(false_positive + true_negative)
 else :
-    false_alarm_rate = "NaN"
+    false_alarm_rate = np.NaN
 if(float(2 * true_positive + false_negative + false_positive) != 0) :
     f_score = 2 / float(2 * true_positive + false_negative + false_positive)
 else :
-    f_score = "NaN"
+    f_score = np.NaN
 
 print("detection_rate = " + str(detection_rate))
 print("precision = " + str(precision))

@@ -53,19 +53,22 @@ def h(i, f) :
 
 
 
-print("**** getting lambda_list from lambda_list.txt ****")
-fichier = open("lambda_list.txt","r")
-lambda_list = fichier.read()
+print("**** getting lambda_list_test from lambda_list_test.txt ****")
+fichier = open("lambda_list_test.txt","r")
+lambda_list_test = fichier.read()
 fichier.close()
-lambda_list = array_from_string.arrayFromStringLambda(lambda_list)
+lambda_list_test = array_from_string.arrayFromStringLambdaTest(lambda_list_test)
 print("---- done ----")
 
-print("**** getting alpha_list from alpha_list.txt ****")
-fichier = open("alpha_list.txt","r")
-alpha_list = fichier.read()
+print("**** getting alpha_list_test from alpha_list_test.txt ****")
+fichier = open("alpha_list_test.txt","r")
+alpha_list_test = fichier.read()
 fichier.close()
-alpha_list = array_from_string.arrayFromStringAlpha(alpha_list)
-N = len(alpha_list)
+if len(alpha_list_test) == 2 :
+    alpha_list_test = array_from_string.arrayFromStringAlphaTest(alpha_list_test)
+else :
+    alpha_list_test = []
+N = len(alpha_list_test)
 print("---- done ----")
 
 

@@ -43,3 +43,35 @@ execfile("load_classifiers.py")
 
 #will test and print accuracy over data/test
 execfile("test_data_set.py")
+
+5. Set a boosting_session over data/test :
+
+execfile("load_test_data.py")
+
+execfile("load_classifiers.py")
+
+execfile("set_adaboost_testdataset.py")
+
+6. Have a boosting_session over data/test :
+
+execfile("boosting_with_ada_boost_testdata.py")
+
+7. Have a test_session on boosted_classifiers over data/test :
+
+execfile("test_boosted_classifiers_test_dataset.py")
+
+8. Set a boosting_session over data/train :
+
+execfile("load_train_data.py")
+
+execfile("load_classifiers.py")
+
+execfile("set_adaboost_traindataset.py")
+
+6. Have a boosting_session over data/train :
+
+execfile("boosting_with_ada_boost_traindata.py")
+
+7. Have a test_session on boosted_classifiers over data/train :
+
+execfile("test_boosted_classifiers_train_dataset.py")

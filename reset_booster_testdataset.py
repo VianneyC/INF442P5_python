@@ -7,17 +7,17 @@ Created on Mon Jul 30 16:27:16 2018
 """
 
 
-lambda_list = [1./len_test_dataset for j in range(len_test_dataset)]
+lambda_list_test = [1./len_test_dataset for j in range(len_test_dataset)]
 
-print("**** saving lambda_list in .txt ****")
-fichier = open("lambda_list.txt","w")
-fichier.write(str(lambda_list))
+print("**** saving lambda_list_test in .txt ****")
+fichier = open("lambda_list_test.txt","w")
+fichier.write(str(lambda_list_test))
 fichier.close()
 print("---- done ----")
 
-alpha_list = []
-print("**** saving alpha_list in .txt ****")
-fichier = open("alpha_list.txt","w")
-fichier.write(str(alpha_list))
+alpha_list_test = []
+print("**** saving alpha_list_test in .txt ****")
+fichier = open("alpha_list_test.txt","w")
+fichier.write(str(alpha_list_test))
 fichier.close()
 print("---- done ----")

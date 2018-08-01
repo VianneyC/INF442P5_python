@@ -167,63 +167,119 @@ def arrayFromStringClassifieurs(classifiers_list) :
     p.ciao()
     return array
 
-#creates lambda_list array from lambda_list.txt
-def arrayFromStringLambda(lambda_list) :
+#creates lambda_list_test array from lambda_list_test.txt
+def arrayFromStringLambdaTest(lambda_list_test) :
     array = []
-    p = progressbar.ProgressBar(len(lambda_list))    
+    p = progressbar.ProgressBar(len(lambda_list_test))    
     i = 1
     old_i = 0
-    while i < len(lambda_list) - 1 :
+    while i < len(lambda_list_test) - 1 :
         int_str = ""
-        while lambda_list[i] != "," and lambda_list[i] != "]" :
-            int_str += lambda_list[i]
+        while lambda_list_test[i] != "," and lambda_list_test[i] != "]" :
+            int_str += lambda_list_test[i]
             i += 1
         array.append(float(int_str))
         i+=1
-    if(i - old_i > len(lambda_list) / 100.) :
+    if(i - old_i > len(lambda_list_test) / 100.) :
         p.animate(i)
         old_i = i
     p.ciao()
     return array
 
-#creates aloha_list array from alpha_list.txt
-def arrayFromStringAlpha(alpha_list) :
+#creates alpha_list_test array from alpha_list_test.txt
+def arrayFromStringAlphaTest(alpha_list_test) :
     array = []
-    p = progressbar.ProgressBar(len(alpha_list))    
+    p = progressbar.ProgressBar(len(alpha_list_test))    
     i = 1
     old_i = 0
-    while i < len(alpha_list) - 1 :
+    while i < len(alpha_list_test) - 1 :
         temp_array = []
-        #print(alpha_list[i] == "[")
+        #print(alpha_list_test[i] == "[")
         i+=1
         int_str = ""
-        while alpha_list[i] != "," :
-            int_str += alpha_list[i]
+        while alpha_list_test[i] != "," :
+            int_str += alpha_list_test[i]
             i += 1
         temp_array.append(float(int_str))
-        #print(alpha_list[i] == ",")
+        #print(alpha_list_test[i] == ",")
         i+=1
-        #print(alpha_list[i] == " ")
+        #print(alpha_list_test[i] == " ")
         i+=1
         int_str = ""
-        while alpha_list[i] != "]" :
-            int_str += alpha_list[i]
+        while alpha_list_test[i] != "]" :
+            int_str += alpha_list_test[i]
             i += 1
         temp_array.append(float(int_str))
         array.append(temp_array)
-        #print(alpha_list[i] == "]")
+        #print(alpha_list_test[i] == "]")
         i+=1
-        if(i < len(alpha_list) - 2 ):
-            #print(alpha_list[i] == ",")
+        if(i < len(alpha_list_test) - 2 ):
+            #print(alpha_list_test[i] == ",")
             i+=1
-            #print(alpha_list[i] == " ")
+            #print(alpha_list_test[i] == " ")
             i+=1
-    if(i - old_i > len(alpha_list) / 100.) :
+    if(i - old_i > len(alpha_list_test) / 100.) :
         p.animate(i)
         old_i = i
     p.ciao()
     return array
 
+#creates lambda_list_train array from lambda_list_train.txt
+def arrayFromStringLambdaTrain(lambda_list_train) :
+    array = []
+    p = progressbar.ProgressBar(len(lambda_list_train))    
+    i = 1
+    old_i = 0
+    while i < len(lambda_list_train) - 1 :
+        int_str = ""
+        while lambda_list_train[i] != "," and lambda_list_train[i] != "]" :
+            int_str += lambda_list_train[i]
+            i += 1
+        array.append(float(int_str))
+        i+=1
+    if(i - old_i > len(lambda_list_train) / 100.) :
+        p.animate(i)
+        old_i = i
+    p.ciao()
+    return array
+
+#creates alpha_list_train array from alpha_list_train.txt
+def arrayFromStringAlphaTrain(alpha_list_train) :
+    array = []
+    p = progressbar.ProgressBar(len(alpha_list_train))    
+    i = 1
+    old_i = 0
+    while i < len(alpha_list_train) - 1 :
+        temp_array = []
+        #print(alpha_list_test[i] == "[")
+        i+=1
+        int_str = ""
+        while alpha_list_train[i] != "," :
+            int_str += alpha_list_train[i]
+            i += 1
+        temp_array.append(float(int_str))
+        #print(alpha_list_test[i] == ",")
+        i+=1
+        #print(alpha_list_test[i] == " ")
+        i+=1
+        int_str = ""
+        while alpha_list_train[i] != "]" :
+            int_str += alpha_list_train[i]
+            i += 1
+        temp_array.append(float(int_str))
+        array.append(temp_array)
+        #print(alpha_list_test[i] == "]")
+        i+=1
+        if(i < len(alpha_list_train) - 2 ):
+            #print(alpha_list_test[i] == ",")
+            i+=1
+            #print(alpha_list_test[i] == " ")
+            i+=1
+    if(i - old_i > len(alpha_list_train) / 100.) :
+        p.animate(i)
+        old_i = i
+    p.ciao()
+    return array
 
 
 """
