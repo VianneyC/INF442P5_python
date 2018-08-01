@@ -1,13 +1,13 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul 31 16:12:40 2018
+Created on Fri Jul 27 15:01:37 2018
 
 @author: vianney
 """
 
+import numpy as np
 import array_from_string
-import progressbar
 
 #returns the pixels sum in the given rectangle on the n-th image
 def sum_rect(x, y, w, h, n) :
@@ -51,36 +51,59 @@ def h(i, f) :
             return 1
         return -1
 
+#error function
+def E(h,c) :
+    return int(h != c)
 
-print("**** getting lambda_list from lambda_list.txt ****")
-fichier = open("lambda_list.txt","r")
-lambda_list = fichier.read()
-fichier.close()
-lambda_list = array_from_string.arrayFromStringLambda(lambda_list)
-print("---- done ----")
+def eps(i) :
+    res = 0
+    for j in wrong_classified_lists[i] :
+        res+=lambda_list[j]
+    return res
 
-print("**** getting alpha_list from alpha_list.txt ****")
-fichier = open("alpha_list.txt","r")
-alpha_list = fichier.read()
-fichier.close()
-alpha_list = array_from_string.arrayFromStringAlpha(alpha_list)
-N = len(alpha_list)
-print("---- done ----")
+#returns the i_k such that h_i_k minimizes the sum    
+def choose_minimizing_classifier(k) :
+    i_k = 0
+    epsilon_k = eps(i_k)
+    min_epsilon_k = epsilon_k
+    for i in range(1, len_vec_features) :
+        epsilon_k = eps(i)
+        if epsilon_k < min_epsilon_k :
+            min_epsilon_k = epsilon_k
+            i_k = i
+    return i_k
 
-"""
-print("**** computing wrong_classified_lists ****")
-wrong_classified_lists = []
-p = progressbar.ProgressBar(len_vec_features)
-old_i = 0
-for i in range(len_vec_features) :
-    array = []
+
+num_epochs = 1000
+
+print("**** boosting weak classifiers from N = {0} to N = {1} ****".format(N, N + num_epochs))    
+for k in range(N, N+num_epochs) :
+    print(k)
+    
+    i_k = choose_minimizing_classifier(k)
+    epsilon_i_k = eps(i_k)
+    print("minimized")
+    if(epsilon_i_k < .5):
+        break
+    alpha_k =  1/2. * np.log( (1.-epsilon_i_k) / float(epsilon_i_k) )
+    alpha_list.append([i_k, alpha_k ] )
+    
     for j in range(len_test_dataset) :
-        if h(i, calc_1feature(j, i)) == test_labels[j] :
-            array.append(j)
-    wrong_classified_lists.append(array)
-    if(i - old_i > len_vec_features / 100.) :
-        p.animate(i)
-        old_i = i
-p.ciao()
+        if(j in wrong_classified_lists[i_k]) :
+            lambda_list[j] *= 1. / (epsilon_i_k * (np.exp( 2 * alpha_k) -1) +1)
+        else :
+            lambda_list[j] *= 1. / (epsilon_i_k * (1 - np.exp(- 2 * alpha_k)) + np.exp(- 2 * alpha_k))
+N+=num_epochs      
 print("---- done ----")
-"""
+
+print("**** saving lambda_list in .txt ****")
+fichier = open("lambda_list.txt","w")
+fichier.write(str(lambda_list))
+fichier.close()
+print("---- done ----")
+
+print("**** saving alpha_list in .txt ****")
+fichier = open("alpha_list.txt","w")
+fichier.write(str(alpha_list))
+fichier.close()
+print("---- done ----")
