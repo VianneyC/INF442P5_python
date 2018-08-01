@@ -51,15 +51,11 @@ def h(i, f) :
             return 1
         return -1
 
-#error function
-def E(h,c) :
-    return int(h != c)
-
 def eps(i) :
     res = 0
-    for j in wrong_classified_lists[i] :
+    for j in test_wrong_classified_lists[i] :
         res+=lambda_list[j]
-    return res
+    return float(res)
 
 #returns the i_k such that h_i_k minimizes the sum    
 def choose_minimizing_classifier(k) :
@@ -74,7 +70,7 @@ def choose_minimizing_classifier(k) :
     return i_k
 
 
-num_epochs = 1000
+num_epochs = 50
 
 print("**** boosting weak classifiers from N = {0} to N = {1} ****".format(N, N + num_epochs))    
 for k in range(N, N+num_epochs) :
@@ -83,17 +79,17 @@ for k in range(N, N+num_epochs) :
     i_k = choose_minimizing_classifier(k)
     epsilon_i_k = eps(i_k)
     print("minimized")
-    if(epsilon_i_k < .5):
-        break
+        
     alpha_k =  1/2. * np.log( (1.-epsilon_i_k) / float(epsilon_i_k) )
     alpha_list.append([i_k, alpha_k ] )
     
+    normalized = float(epsilon_i_k * (np.exp( alpha_k) - np.exp(- alpha_k)) + np.exp(- alpha_k))
     for j in range(len_test_dataset) :
-        if(j in wrong_classified_lists[i_k]) :
-            lambda_list[j] *= 1. / (epsilon_i_k * (np.exp( 2 * alpha_k) -1) +1)
+        if(j in test_wrong_classified_lists[i_k]) :
+            lambda_list[j] *= np.exp( alpha_k) / normalized
         else :
-            lambda_list[j] *= 1. / (epsilon_i_k * (1 - np.exp(- 2 * alpha_k)) + np.exp(- 2 * alpha_k))
-N+=num_epochs      
+            lambda_list[j] *= np.exp(- alpha_k) / normalized
+N+=num_epochs
 print("---- done ----")
 
 print("**** saving lambda_list in .txt ****")

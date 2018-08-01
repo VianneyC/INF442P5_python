@@ -68,20 +68,19 @@ alpha_list = array_from_string.arrayFromStringAlpha(alpha_list)
 N = len(alpha_list)
 print("---- done ----")
 
-"""
-print("**** computing wrong_classified_lists ****")
-wrong_classified_lists = []
+
+print("**** computing test_wrong_classified_lists ****")
+test_wrong_classified_lists = []
 p = progressbar.ProgressBar(len_vec_features)
 old_i = 0
 for i in range(len_vec_features) :
     array = []
     for j in range(len_test_dataset) :
-        if h(i, calc_1feature(j, i)) == test_labels[j] :
+        if h(i, calc_1feature(j, i)) != test_labels[j] :
             array.append(j)
-    wrong_classified_lists.append(array)
+    test_wrong_classified_lists.append(array)
     if(i - old_i > len_vec_features / 100.) :
         p.animate(i)
         old_i = i
 p.ciao()
 print("---- done ----")
-"""
