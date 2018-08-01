@@ -77,7 +77,7 @@ false_positive_array = np.array([0 for k in range(len(threshold_array))])
 true_positive_array = np.array([0 for k in range(len(threshold_array))])
 true_negative_array = np.array([0 for k in range(len(threshold_array))])
 
-print("**** testing boosted classifiers on test_dataset ****")
+print("**** testing test boosted classifiers on test_dataset ****")
 p = progressbar.ProgressBar(len_test_dataset)
 old_n = 0
 Y = []
