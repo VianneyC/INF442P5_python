@@ -56,7 +56,7 @@ def h(i, f) :
 
 print("**** getting alpha_list_train from alpha_list_train.txt ****")
 fichier = open("alpha_list_train.txt","r")
-alpha_list_test = fichier.read()
+alpha_list_train = fichier.read()
 fichier.close()
 if(len(alpha_list_train) != 2) :
     alpha_list_train = array_from_string.arrayFromStringAlphaTrain(alpha_list_train)
@@ -69,7 +69,7 @@ print("---- done ----")
 
 sum_alpha = np.sum([elt[1] for elt in alpha_list_train])
 two_len_theta = 100
-precision_theta = 10
+precision_theta = 5
 threshold_array = np.array([the / float(two_len_theta) * sum_alpha for the in range(-two_len_theta,two_len_theta,precision_theta)])
 
 false_negative_array = np.array([0 for k in range(len(threshold_array))])
@@ -136,20 +136,34 @@ for i in range(len(threshold_array)) :
     else :
         f_score_array[i] = np.NaN
 
-print(detection_rate_array)
-print(precision_array)
-print(false_alarm_rate_array)
-print(f_score_array)
+#print(detection_rate_array)
+#print(precision_array)
+#print(false_alarm_rate_array)
+#print(f_score_array)
 
-theta_max = np.nanargmax(f_score_array)
+detection_rate_array_mod = []
+precision_array_mod = []
+false_alarm_rate_array_mod = []
+f_score_array_mod = []
+thresholds_mod = []
+
+for i in range(len(threshold_array)) :
+    if false_alarm_rate_array[i] != 1 and precision_array[i] != np.NaN and detection_rate_array[i] != 0 :
+        detection_rate_array_mod.append(detection_rate_array[i])
+        precision_array_mod.append(precision_array[i])
+        false_alarm_rate_array_mod.append(false_alarm_rate_array[i])
+        f_score_array_mod.append(f_score_array[i])
+        thresholds_mod.append(threshold_array[i])
+
+theta_max = np.nanargmax(f_score_array_mod)
 
 print("---- done ----")
 
 
-print("detection_rate = " + str(detection_rate_array[theta_max]))
-print("precision = " + str(precision_array[theta_max]))
-print("false_alarm_rate = " + str(false_alarm_rate_array[theta_max]))
-print("f_score = " + str(f_score_array[theta_max]))
+print("detection_rate = " + str(detection_rate_array_mod[theta_max]))
+print("precision = " + str(precision_array_mod[theta_max]))
+print("false_alarm_rate = " + str(false_alarm_rate_array_mod[theta_max]))
+print("f_score = " + str(f_score_array_mod[theta_max]))
 
 #plt.plot(threshold_array, f_score_array)
 #plt.show()

@@ -70,7 +70,7 @@ def choose_minimizing_classifier(k) :
     return i_k
 
 
-num_epochs = 50
+num_epochs = 100
 
 print("**** boosting weak classifiers from N = {0} to N = {1} ****".format(N, N + num_epochs))    
 for k in range(N, N+num_epochs) :
